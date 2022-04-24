@@ -34,7 +34,7 @@ import { validateEmail } from '@/utils/validation';
 export default {
 	data() {
 		return {
-			// form value
+			// form values
 			username: '',
 			password: '',
 			// log
@@ -42,7 +42,7 @@ export default {
 		};
 	},
 	computed: {
-		isUsernameVaild() {
+		isUsernameValid() {
 			return validateEmail(this.username);
 		},
 	},
@@ -56,10 +56,14 @@ export default {
 				};
 				const { data } = await loginUser(userData);
 				console.log(data.user.username);
-				this.logMessage = `${data.user.username} 님 환영합니다.`;
+				this.$store.commit('setUsername', data.user.username);
+				// this.logMessage = `${data.user.username} 님 환영합니다`;
+				this.$router.push('/main');
 			} catch (error) {
-				// 에러 핸들링
+				// 에러 핸들링할 코드
+				console.log(error.response.data);
 				this.logMessage = error.response.data;
+				// this.initForm();
 			} finally {
 				this.initForm();
 			}
